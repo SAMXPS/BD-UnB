@@ -8,7 +8,9 @@ Trabalho final da disciplina de Banco de Dados - Universidade de Brasília - 202
 Para simplificar o ambiente de execução, usei uma VM na Digital Ocean para desenvolver o trabalho. Não é necessário a VM pra reproduzir, mas achei interessante incluir esses detalhes.
 
 Ambiente de Desenvolvimento:
-- IDE: Visual Studio Code, com extensão Remote SSH
+- IDE: Visual Studio Code
+    - extensão: Remote - SSH v0.102.0
+    - extensão: Docker v1.25.2
 - VM: 1GB 1CPU 25GB SSD (~R$1,08 / dia) (New York)
 - Sistema Operacional: Ubuntu 22.04 x64 LTS 
 
@@ -69,3 +71,15 @@ sudo apt install docker-compose
 Execute `docker container ls` pra verificar os containers existentes. 
 
 Para remover um container pre-existente, execute `docker container rm <container's name>`. 
+
+# Iniciando os containers
+
+```
+docker compose up -d
+```
+
+# Desligando e limpando os containers
+
+```
+docker compose down
+```
