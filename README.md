@@ -78,8 +78,20 @@ Para remover um container pre-existente, execute `docker container rm <container
 docker compose up -d
 ```
 
+ou
+
+```
+./start.sh
+```
+
 # Desligando e limpando os containers
 
 ```
 docker compose down
+```
+
+ou
+
+```
+./stop.sh
 ```
