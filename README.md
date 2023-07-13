@@ -1,9 +1,7 @@
 # BD-UnB
 Trabalho final da disciplina de Banco de Dados - Universidade de Brasília - 2023/1
 
-# Tutorial de Execução
-
-## Informações do Ambiente
+# Informações do Ambiente
 
 Para simplificar o ambiente de execução, usei uma VM na Digital Ocean para desenvolver o trabalho. Não é necessário a VM pra reproduzir, mas achei interessante incluir esses detalhes.
 
@@ -11,16 +9,16 @@ Ambiente de Desenvolvimento:
 - IDE: Visual Studio Code
     - extensão: Remote - SSH v0.102.0
     - extensão: Docker v1.25.2
-- VM: 1GB 1CPU 25GB SSD (~R$1,08 / dia) (New York)
+- VM: 2GB 2CPU 25GB SSD (~R$1,08 / dia) (New York)
 - Sistema Operacional: Ubuntu 22.04 x64 LTS 
 
 Tutorial sobre docker PHP+MySQL: https://www.section.io/engineering-education/dockerized-php-apache-and-mysql-container-development-environment/
 
 Tutorial sobre instalação do docker Ubuntu 22.04: https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04
 
-## Requisistos para execução do trabalho
+# Requisistos para execução do trabalho
 
-### Passo 1. Instalação do docker.
+## Passo 1. Instalação do docker.
 
 Caso nao tenha o docker instalado, segue como instalar no Ubuntu 22.04.
 Enviar um comando por vez.
@@ -95,3 +93,9 @@ ou
 ```
 ./stop.sh
 ```
+
+# Informações de Acesso
+
+Website: porta 8000
+PhpMyAdmin: porta 8080
+Database: porta 9906
