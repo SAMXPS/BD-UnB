@@ -30,5 +30,7 @@ function update($key, $data) {
 }
 
 function delete($key) {
-    // todo
+    $pdo = $GLOBALS['_PDO'];
+    $stm = $pdo->prepare("DELETE FROM usuarios WHERE email = ? OR matricula = ?");
+    return $stm->execute([$key,$key]);
 }

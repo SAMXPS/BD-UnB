@@ -30,10 +30,22 @@ function readLatestRange($start, $end) {
     return $stm->fetchAll(\PDO::FETCH_OBJ);
 }
 
-function update($key, $data) {
-    // todo
+function readFromUsuario($usuario) {
+    $pdo = $GLOBALS['_PDO'];
+    $stm = $pdo->prepare("SELECT * FROM avaliacoes WHERE usuario = ?");
+    $stm->execute([$usuario]);
+    return $stm->fetchAll(\PDO::FETCH_OBJ);
+
+}
+
+function update($id,$professor_nota,$professor_text,$disciplina_nota,$disciplina_text) {
+    $pdo = $GLOBALS['_PDO'];
+    $stm = $pdo->prepare("UPDATE avaliacoes SET professor_nota = ?, professor_text = ?, disciplina_nota = ?, disciplina_text = ? WHERE id = ?");
+    return $stm->execute([$professor_nota,$professor_text,$disciplina_nota,$disciplina_text,$id]);
 }
 
 function delete($key) {
-    // todo
+    $pdo = $GLOBALS['_PDO'];
+    $stm = $pdo->prepare("DELETE FROM avaliacoes WHERE id = ?");
+    return $stm->execute([$key]);
 }

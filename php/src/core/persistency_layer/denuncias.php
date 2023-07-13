@@ -20,8 +20,10 @@ function readLatestRange($start, $end) {
     return $stm->fetchAll(\PDO::FETCH_OBJ);
 }
 
-function update($key, $data) {
-    // todo
+function update($key, $tratada) {
+    $pdo = $GLOBALS['_PDO'];
+    $stm = $pdo->prepare("UPDATE denuncias SET tratada = ? WHERE id = ?");
+    return $stm->execute([$tratada, $key]);
 }
 
 function delete($key) {
