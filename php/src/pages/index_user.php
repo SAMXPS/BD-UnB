@@ -6,4 +6,11 @@ if (!requireLogin()) {
     die();
 }
 
-echo "Voce eh user!!!";
+$avaliacoes = \avaliacoes\readRange(0, 10);
+var_dump($avaliacoes);
+
+?>
+
+<div class="container">
+
+</div>
