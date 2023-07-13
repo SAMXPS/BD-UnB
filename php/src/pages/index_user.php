@@ -6,9 +6,11 @@ if (!requireLogin()) {
     die();
 }
 
-include dirname(__FILE__)."/../resources/head.php";
+include_once dirname(__FILE__)."/../resources/head.php";
 
 $avaliacoes = \avaliacoes\readLatestRange(0, 10);
+
+echo "<h4>Opções de USUARIO</h4>";
 
 echo "<a href='nova_avaliacao.php'>NOVA AVALIACAO</a><br>";
 echo "<a href='minhas_avaliacoes.php'>MINHAS AVALIACOES</a><br>";
