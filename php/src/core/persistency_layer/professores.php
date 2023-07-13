@@ -29,7 +29,11 @@ function searchByName($search) {
 
 function searchByDisciplina($cod) {
     $pdo = $GLOBALS['_PDO'];
-    $stm = $pdo->prepare("SELECT professores.* FROM professores INNER JOIN disciplina_professor ON professores.matricula=disciplina_professor.cod_professor WHERE disciplina_professor.cod_disciplina = ?;");
+    //$stm = $pdo->prepare("SELECT professores.* FROM professores INNER JOIN disciplina_professor ON professores.matricula=disciplina_professor.cod_professor WHERE disciplina_professor.cod_disciplina = ?;");
+    // CALL `getProfessoresByDisciplina`(@p0);
+
+    // USO DO PROCEDURE
+    $stm = $pdo->prepare("CALL getProfessoresByDisciplina(?);");
     $stm->execute([$cod]);
     return $stm->fetchAll(\PDO::FETCH_OBJ);
 }

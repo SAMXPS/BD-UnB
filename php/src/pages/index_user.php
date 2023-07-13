@@ -8,13 +8,14 @@ if (!requireLogin()) {
 
 include_once dirname(__FILE__)."/../resources/head.php";
 
-$avaliacoes = \avaliacoes\readLatestRange(0, 10);
+$avaliacoes = \avaliacoes\readLatestRangeView(0, 10);
 
 echo "<div class='container'>";
 echo "<h4>Painel do Usuario</h4>";
 
 echo "<a href='/pages/nova_avaliacao.php'>NOVA AVALIACAO</a><br>";
 echo "<a href='/pages/minhas_avaliacoes.php'>MINHAS AVALIACOES</a><br>";
+echo "<a href='/pages/editar_perfil.php'>EDITAR MEU PERFIL</a><br>";
 echo "<a href='/pages/logout.php'>LOGOUT</a><br>";
 
 echo "Ultimas avaliacoes: <br><br>";
@@ -23,10 +24,9 @@ foreach ($avaliacoes as $avaliacao) {
     $turma = \turmas\read($avaliacao->id_turma);
     $professor = \professores\read($turma->cod_professor);
     $disciplina = \disciplinas\read($turma->cod_disciplina);
-    $aluno = \usuarios\read($avaliacao->usuario);
 
     echo "---------------------<br>";
-    echo "O ALUNO $aluno->nome avaliou a DISCIPLINA $disciplina->nome ( $disciplina->cod ) <br>";
+    echo "O ALUNO $avaliacao->nome avaliou a DISCIPLINA $disciplina->nome ( $disciplina->cod ) <br>";
     echo "semestre: $turma->periodo<br>";
     echo "nota: $avaliacao->disciplina_nota<br>";
     echo "motivo: $avaliacao->disciplina_text<br>";

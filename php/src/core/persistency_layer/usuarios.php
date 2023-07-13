@@ -25,8 +25,35 @@ function read($key) {
     return $stm->fetch(\PDO::FETCH_OBJ);
 }
 
-function update($key, $data) {
-    // todo
+function getImage($usuario) {
+    $pdo = $GLOBALS['_PDO'];
+    $stm = $pdo->prepare("SELECT * FROM usuarios_pictures WHERE usuario = ?");
+    $stm->execute([$usuario]);
+    return $stm->fetch(\PDO::FETCH_OBJ);
+}
+
+function updateImage($usuario, $blob) {
+    $pdo = $GLOBALS['_PDO'];
+    $stm = $pdo->prepare("INSERT INTO usuarios_pictures(picture,usuario) VALUES(?,?);");
+    return $stm->execute([$blob, $usuario]);
+}
+
+function updatePassword($key, $senha) {
+    $pdo = $GLOBALS['_PDO'];
+    $senha = passwordEncrypt($senha);
+    $stm = $pdo->prepare("UPDATE usuarios SET senha = ? WHERE email = ? OR matricula = ?");
+    return $stm->execute([$senha, $key,$key]);
+}
+
+function update($key, $nome, $curso, $senha) {
+    $pdo = $GLOBALS['_PDO'];
+    $stm = $pdo->prepare("UPDATE usuarios SET nome = ?, curso = ? WHERE email = ? OR matricula = ?");
+    if ($senha) {
+        if (!updatePassword($key, $senha)) {
+            return false;
+        }
+    }
+    return ($stm->execute([$nome, $curso, $key,$key]));
 }
 
 function delete($key) {

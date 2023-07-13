@@ -16,6 +16,13 @@ function read($key) {
     return $stm->fetch(\PDO::FETCH_OBJ);
 }
 
+function readView($key) {
+    $pdo = $GLOBALS['_PDO'];
+    $stm = $pdo->prepare("SELECT * FROM view_avaliacoes_usuarios WHERE id = ?");
+    $stm->execute([$key]);
+    return $stm->fetch(\PDO::FETCH_OBJ);
+}
+
 function readRange($start, $end) {
     $pdo = $GLOBALS['_PDO'];
     $stm = $pdo->prepare("SELECT * FROM avaliacoes LIMIT $start, $end");
@@ -26,6 +33,13 @@ function readRange($start, $end) {
 function readLatestRange($start, $end) {
     $pdo = $GLOBALS['_PDO'];
     $stm = $pdo->prepare("SELECT * FROM avaliacoes ORDER BY id DESC LIMIT $start, $end");
+    $stm->execute();
+    return $stm->fetchAll(\PDO::FETCH_OBJ);
+}
+
+function readLatestRangeView($start, $end) {
+    $pdo = $GLOBALS['_PDO'];
+    $stm = $pdo->prepare("SELECT * FROM view_avaliacoes_usuarios ORDER BY id DESC LIMIT $start, $end");
     $stm->execute();
     return $stm->fetchAll(\PDO::FETCH_OBJ);
 }

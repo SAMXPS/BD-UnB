@@ -255,6 +255,51 @@ ALTER TABLE `professores`
 ALTER TABLE `turmas`
   ADD CONSTRAINT `turmas_ibfk_1` FOREIGN KEY (`cod_disciplina`) REFERENCES `disciplinas` (`cod`) ON DELETE CASCADE ON UPDATE RESTRICT,
   ADD CONSTRAINT `turmas_ibfk_2` FOREIGN KEY (`cod_professor`) REFERENCES `professores` (`matricula`) ON DELETE CASCADE ON UPDATE RESTRICT;
+
+--
+-- Estrutura para tabela `usuarios_pictures`
+--
+
+CREATE TABLE `usuarios_pictures` (
+  `usuario` int NOT NULL,
+  `picture` mediumblob NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Índices para tabelas despejadas
+--
+
+--
+-- Índices de tabela `usuarios_pictures`
+--
+ALTER TABLE `usuarios_pictures`
+  ADD PRIMARY KEY (`usuario`);
+
+--
+-- Restrições para tabelas despejadas
+--
+
+--
+-- Restrições para tabelas `usuarios_pictures`
+--
+ALTER TABLE `usuarios_pictures`
+  ADD CONSTRAINT `usuarios_pictures_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `usuarios` (`matricula`) ON DELETE CASCADE ON UPDATE RESTRICT;
+
+--
+-- Estrutura para view `view_avaliacoes_usuarios`
+--
+
+-- VIEW
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `view_avaliacoes_usuarios`  AS SELECT `avaliacoes`.`id` AS `id`, `avaliacoes`.`usuario` AS `usuario`, `avaliacoes`.`id_turma` AS `id_turma`, `avaliacoes`.`professor_nota` AS `professor_nota`, `avaliacoes`.`professor_text` AS `professor_text`, `avaliacoes`.`disciplina_nota` AS `disciplina_nota`, `avaliacoes`.`disciplina_text` AS `disciplina_text`, `avaliacoes`.`data` AS `data`, `usuarios`.`matricula` AS `matricula`, `usuarios`.`email` AS `email`, `usuarios`.`curso` AS `curso`, `usuarios`.`nome` AS `nome`, `usuarios`.`senha` AS `senha`, `usuarios`.`is_admin` AS `is_admin` FROM (`avaliacoes` join `usuarios` on((`avaliacoes`.`usuario` = `usuarios`.`matricula`))) ;
+
+-- PROCEDURE
+
+DELIMITER $$
+CREATE DEFINER=`root`@`%` PROCEDURE `getProfessoresByDisciplina`(IN `displinaid` VARCHAR(16))
+SELECT professores.* FROM professores INNER JOIN disciplina_professor ON professores.matricula=disciplina_professor.cod_professor WHERE disciplina_professor.cod_disciplina = displinaid$$
+DELIMITER ;
+
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
