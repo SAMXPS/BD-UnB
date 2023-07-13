@@ -1,4 +1,7 @@
 <?php
 require_once "core.php";
-include_once "pages/index.php";
 ?>
+
+<script>
+    window.location.href = "/pages/index.php";
+</script>
