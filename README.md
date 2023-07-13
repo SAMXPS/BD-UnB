@@ -125,3 +125,11 @@ Então, basta executar:
 ```
 
 OBS: Testado apenas em ambiente LINUX, talvez seja necessario algum ajuste pequeno para rodar em WINDOWS.
+
+# Usuarios do Sistema
+
+Os seguintes usuarios estao previamente criados:
+- login: 1 senha: 1
+- login: 2 senha: 2
+- login: 3 senha: 3
+- login: 99 senha: admin
