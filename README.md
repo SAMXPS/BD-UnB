@@ -76,7 +76,7 @@ Para remover um container pre-existente, execute `docker container rm <container
 docker compose up -d
 ```
 
-ou
+ou (de preferencia)
 
 ```
 ./start.sh
@@ -88,7 +88,7 @@ ou
 docker compose down
 ```
 
-ou
+ou (de preferencia)
 
 ```
 ./stop.sh
@@ -97,9 +97,31 @@ ou
 # Informações de Acesso
 
 Website: porta 8000
+
 PhpMyAdmin: porta 8080
+
 Database: porta 9906
 
 # Importando arquivos SQL para o BD
 
+A importacao de arquivos sql para o BD pode ser feita da seguinte forma:
+
+```
 docker exec -i db mysql --default-character-set=utf8 -uroot -proot@pass db_unb < arquivo_sql.sql
+```
+
+Porém, já preparei um script `load_db.sh` que importa os arquivos da pasta dados.
+- bd_unb_drop_tables -> limpa o BD
+- bd_unb_schema      -> esquema do BD
+- bd_unb_data        -> dados do BD
+    - Aqui contem no minimo 3 dados pra cada tabela.
+    - Deixei apenas os departamentos de COMPUTACAO.
+    - Existe tb a versao completa na pasta scripts/turmas.sql com TODAS as turmas da UnB (dos CSVs fornecidos pelo professor).
+
+Então, basta executar:
+
+```
+./load_db.sh
+```
+
+OBS: Testado apenas em ambiente LINUX, talvez seja necessario algum ajuste pequeno para rodar em WINDOWS.
