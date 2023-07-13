@@ -6,6 +6,8 @@ if (!requireLogin()) {
     die();
 }
 
+include dirname(__FILE__)."/../resources/head.php";
+
 if (!$logged_user->is_admin) {
     echo "Voce nao eh admin!!!!";
     die();
