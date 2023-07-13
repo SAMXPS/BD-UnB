@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Tempo de geração: 12/07/2023 às 23:42
+-- Tempo de geração: 13/07/2023 às 06:12
 -- Versão do servidor: 8.0.33
 -- Versão do PHP: 8.1.17
 
@@ -34,7 +34,8 @@ CREATE TABLE `avaliacoes` (
   `professor_nota` int NOT NULL,
   `professor_text` text NOT NULL,
   `disciplina_nota` int NOT NULL,
-  `disciplina_text` text NOT NULL
+  `disciplina_text` text NOT NULL,
+  `data` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -47,7 +48,7 @@ CREATE TABLE `denuncias` (
   `id` int NOT NULL,
   `id_avaliacao` int NOT NULL,
   `motivo` text NOT NULL,
-  `tratada` tinyint(1) NOT NULL,
+  `tratada` tinyint(1) NOT NULL DEFAULT '0',
   `data` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -108,8 +109,8 @@ CREATE TABLE `turmas` (
   `periodo` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `cod_professor` int NOT NULL,
   `cod_disciplina` varchar(16) NOT NULL,
-  `turma` int NOT NULL,
-  `horario` varchar(32) NOT NULL,
+  `turma` varchar(8) NOT NULL,
+  `horario` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `local` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -129,13 +130,6 @@ CREATE TABLE `usuarios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Despejando dados para a tabela `usuarios`
---
-
-INSERT INTO `usuarios` (`matricula`, `email`, `curso`, `nome`, `senha`, `is_admin`) VALUES
-(190019948, 'samuel.jlbsb@gmail.com', 'Engenharia de Computacao', 'Samuel James de Lima Barroso', '$not_a_password', 0);
-
---
 -- Índices para tabelas despejadas
 --
 
@@ -144,15 +138,15 @@ INSERT INTO `usuarios` (`matricula`, `email`, `curso`, `nome`, `senha`, `is_admi
 --
 ALTER TABLE `avaliacoes`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id_turma` (`id_turma`),
-  ADD KEY `avaliacoes_ibfk_1` (`usuario`);
+  ADD KEY `usuario` (`usuario`),
+  ADD KEY `id_turma` (`id_turma`);
 
 --
 -- Índices de tabela `denuncias`
 --
 ALTER TABLE `denuncias`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id_avaliacao` (`id_avaliacao`);
+  ADD KEY `denuncias_ibfk_1` (`id_avaliacao`);
 
 --
 -- Índices de tabela `departamentos`
@@ -165,21 +159,21 @@ ALTER TABLE `departamentos`
 --
 ALTER TABLE `disciplinas`
   ADD PRIMARY KEY (`cod`),
-  ADD KEY `cod_depto` (`cod_depto`);
+  ADD KEY `disciplinas_ibfk_1` (`cod_depto`);
 
 --
 -- Índices de tabela `disciplina_professor`
 --
 ALTER TABLE `disciplina_professor`
-  ADD KEY `cod_professor` (`cod_professor`),
-  ADD KEY `cod_disciplina` (`cod_disciplina`);
+  ADD KEY `disciplina_professor_ibfk_1` (`cod_professor`),
+  ADD KEY `disciplina_professor_ibfk_2` (`cod_disciplina`);
 
 --
 -- Índices de tabela `professores`
 --
 ALTER TABLE `professores`
   ADD PRIMARY KEY (`matricula`),
-  ADD KEY `cod_depto` (`cod_depto`);
+  ADD KEY `professores_ibfk_1` (`cod_depto`);
 
 --
 -- Índices de tabela `turmas`
@@ -187,8 +181,8 @@ ALTER TABLE `professores`
 ALTER TABLE `turmas`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `turma_unique` (`periodo`,`cod_disciplina`,`turma`) USING BTREE,
-  ADD KEY `cod_disciplina` (`cod_disciplina`),
-  ADD KEY `cod_professor` (`cod_professor`);
+  ADD KEY `turmas_ibfk_1` (`cod_disciplina`),
+  ADD KEY `turmas_ibfk_2` (`cod_professor`);
 
 --
 -- Índices de tabela `usuarios`
@@ -227,39 +221,40 @@ ALTER TABLE `turmas`
 -- Restrições para tabelas `avaliacoes`
 --
 ALTER TABLE `avaliacoes`
-  ADD CONSTRAINT `avaliacoes_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `usuarios` (`matricula`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `avaliacoes_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `usuarios` (`matricula`) ON DELETE CASCADE ON UPDATE RESTRICT,
+  ADD CONSTRAINT `avaliacoes_ibfk_2` FOREIGN KEY (`id_turma`) REFERENCES `turmas` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
 
 --
 -- Restrições para tabelas `denuncias`
 --
 ALTER TABLE `denuncias`
-  ADD CONSTRAINT `denuncias_ibfk_1` FOREIGN KEY (`id_avaliacao`) REFERENCES `avaliacoes` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `denuncias_ibfk_1` FOREIGN KEY (`id_avaliacao`) REFERENCES `avaliacoes` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
 
 --
 -- Restrições para tabelas `disciplinas`
 --
 ALTER TABLE `disciplinas`
-  ADD CONSTRAINT `disciplinas_ibfk_1` FOREIGN KEY (`cod_depto`) REFERENCES `departamentos` (`cod`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `disciplinas_ibfk_1` FOREIGN KEY (`cod_depto`) REFERENCES `departamentos` (`cod`) ON DELETE CASCADE ON UPDATE RESTRICT;
 
 --
 -- Restrições para tabelas `disciplina_professor`
 --
 ALTER TABLE `disciplina_professor`
-  ADD CONSTRAINT `disciplina_professor_ibfk_1` FOREIGN KEY (`cod_professor`) REFERENCES `professores` (`matricula`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `disciplina_professor_ibfk_2` FOREIGN KEY (`cod_disciplina`) REFERENCES `disciplinas` (`cod`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `disciplina_professor_ibfk_1` FOREIGN KEY (`cod_professor`) REFERENCES `professores` (`matricula`) ON DELETE CASCADE ON UPDATE RESTRICT,
+  ADD CONSTRAINT `disciplina_professor_ibfk_2` FOREIGN KEY (`cod_disciplina`) REFERENCES `disciplinas` (`cod`) ON DELETE CASCADE ON UPDATE RESTRICT;
 
 --
 -- Restrições para tabelas `professores`
 --
 ALTER TABLE `professores`
-  ADD CONSTRAINT `professores_ibfk_1` FOREIGN KEY (`cod_depto`) REFERENCES `departamentos` (`cod`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `professores_ibfk_1` FOREIGN KEY (`cod_depto`) REFERENCES `departamentos` (`cod`) ON DELETE CASCADE ON UPDATE RESTRICT;
 
 --
 -- Restrições para tabelas `turmas`
 --
 ALTER TABLE `turmas`
-  ADD CONSTRAINT `turmas_ibfk_1` FOREIGN KEY (`cod_disciplina`) REFERENCES `disciplinas` (`cod`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `turmas_ibfk_2` FOREIGN KEY (`cod_professor`) REFERENCES `professores` (`matricula`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `turmas_ibfk_1` FOREIGN KEY (`cod_disciplina`) REFERENCES `disciplinas` (`cod`) ON DELETE CASCADE ON UPDATE RESTRICT,
+  ADD CONSTRAINT `turmas_ibfk_2` FOREIGN KEY (`cod_professor`) REFERENCES `professores` (`matricula`) ON DELETE CASCADE ON UPDATE RESTRICT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
