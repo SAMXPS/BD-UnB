@@ -1,0 +1,10 @@
+SET FOREIGN_KEY_CHECKS = 0;
+DROP TABLE `avaliacoes`;
+DROP TABLE `denuncias`;
+DROP TABLE  `departamentos`;
+DROP TABLE  `disciplinas`;
+DROP TABLE  `disciplina_professor`;
+DROP TABLE  `professores`;
+DROP TABLE  `turmas`;
+DROP TABLE  `usuarios`;
+SET FOREIGN_KEY_CHECKS = 1;

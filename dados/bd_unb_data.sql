@@ -9,6 +9,7 @@
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
+SET FOREIGN_KEY_CHECKS = 0;
 SET time_zone = "+00:00";
 
 
@@ -908,6 +909,8 @@ INSERT INTO `usuarios` (`matricula`, `email`, `curso`, `nome`, `senha`, `is_admi
 (2, '2', 'Curso do Aluno 2', 'Aluno 2', '$2y$10$Csy.aIxj4XD9diKuEYl/ReEx3jNiNTIQVCsmh1w6oHQlfAPIs8.ui', 0),
 (3, '3', 'Curso do aluno 3', 'Aluno 3', '$2y$10$S5l2Ifow.r4SArUSDkDvnO8TFRXz5gaCLfkam9jHvoPwFQ12/SRAy', 0),
 (99, 'admin', 'ADMIN', 'ADMIN', '$2y$10$rMvZzx4wRbN18PWh7lFk1uy/1sC9PCEQNsrrKXMeeubIN9RQfAXlO', 1);
+
+SET FOREIGN_KEY_CHECKS = 1;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
