@@ -99,3 +99,7 @@ ou
 Website: porta 8000
 PhpMyAdmin: porta 8080
 Database: porta 9906
+
+# Importando arquivos SQL para o BD
+
+docker exec -i db mysql --default-character-set=utf8 -uroot -proot@pass db_unb < arquivo_sql.sql
