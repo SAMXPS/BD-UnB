@@ -12,8 +12,9 @@ $avaliacoes = \avaliacoes\readLatestRange(0, 10);
 
 echo "<h4>Opções de USUARIO</h4>";
 
-echo "<a href='nova_avaliacao.php'>NOVA AVALIACAO</a><br>";
-echo "<a href='minhas_avaliacoes.php'>MINHAS AVALIACOES</a><br>";
+echo "<a href='/pages/nova_avaliacao.php'>NOVA AVALIACAO</a><br>";
+echo "<a href='/pages/minhas_avaliacoes.php'>MINHAS AVALIACOES</a><br>";
+echo "<a href='/pages/logout.php'>LOGOUT</a><br>";
 
 echo "Ultimas avaliacoes: <br><br>";
 
